@@ -22,4 +22,6 @@ export async function createTicket(ticketTypeId: number, userId: number) {
   return ticketsRepo.createTicket(ticketTypeId, enrollment.id);
 }
 
-export default { getTicketTypes, getTicket, createTicket };
+const ticketsService = { getTicketTypes, getTicket, createTicket };
+
+export default ticketsService;
