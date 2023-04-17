@@ -32,9 +32,27 @@ export async function findEnrollmentbyUserId(userId: number) {
     where: { userId },
   });
 }
+export async function findTicketTypeById(ticketTypeId: number) {
+  return await prisma.ticketType.findFirst({
+    where: { id: ticketTypeId },
+  });
+}
+export async function createTicket(ticketTypeId: number, enrollmentId: number) {
+  const promise = await prisma.ticket.create({
+    data: {
+      ticketTypeId,
+      enrollmentId,
+      status: 'RESERVED',
+    },
+  });
+
+  return findFirstTicket(promise.enrollmentId);
+}
 const ticketsRepo = {
   findMany,
   findFirstTicket,
   findEnrollmentbyUserId,
+  findTicketTypeById,
+  createTicket,
 };
 export default ticketsRepo;

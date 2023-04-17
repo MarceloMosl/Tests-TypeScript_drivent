@@ -1,3 +1,4 @@
+import { invalidDataError } from '@/errors';
 import ticketsRepo from '@/repositories/tickets-repository';
 
 export async function getTicketTypes() {
@@ -11,4 +12,14 @@ export async function getTicket(userId: number) {
   return await ticketsRepo.findFirstTicket(id);
 }
 
-export default { getTicketTypes, getTicket };
+export async function createTicket(ticketTypeId: number, userId: number) {
+  const ticketType = await ticketsRepo.findTicketTypeById(ticketTypeId);
+  if (!ticketType) throw invalidDataError(['this ticketType does not exists']);
+
+  const enrollment = await ticketsRepo.findEnrollmentbyUserId(userId);
+  if (!enrollment) throw invalidDataError(['this user has no enrollments']);
+
+  return ticketsRepo.createTicket(ticketTypeId, enrollment.id);
+}
+
+export default { getTicketTypes, getTicket, createTicket };
