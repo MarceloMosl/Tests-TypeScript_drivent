@@ -1,4 +1,5 @@
 import { invalidDataError } from '@/errors';
+import { paymentObj } from '@/protocols';
 import paymentRepo from '@/repositories/payment-repository';
 
 export async function getPaymentByTicketId(ticketId: number, userId: number) {
@@ -10,5 +11,13 @@ export async function getPaymentByTicketId(ticketId: number, userId: number) {
   return await paymentRepo.getPaymentByTicketId(ticketId);
 }
 
-const paymentService = { getPaymentByTicketId };
+export async function createPayment(paymentObj: paymentObj, userId: number) {
+  const ticket = await paymentRepo.findTicketById(paymentObj.ticketId);
+  if (!ticket) return false;
+  if (ticket.Enrollment.userId !== userId) throw new Error('ticket does not belogns to user');
+
+  return await paymentRepo.createPayment(paymentObj, ticket.TicketType.price);
+}
+
+const paymentService = { getPaymentByTicketId, createPayment };
 export default paymentService;

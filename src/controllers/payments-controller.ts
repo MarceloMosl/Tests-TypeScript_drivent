@@ -15,3 +15,16 @@ export async function getPaymentByTicketId(req: AuthenticatedRequest, res: Respo
     return res.status(httpStatus.NOT_FOUND).send(error);
   }
 }
+
+export async function createPayment(req: AuthenticatedRequest, res: Response) {
+  const { ticketId, cardData } = req.body;
+  if (!ticketId || !cardData) return res.sendStatus(httpStatus.BAD_REQUEST);
+  try {
+    const promise = await paymentService.createPayment(req.body, req.userId);
+    if (!promise) return res.sendStatus(httpStatus.NOT_FOUND);
+
+    return res.status(httpStatus.OK).send(promise);
+  } catch (error) {
+    return res.sendStatus(httpStatus.UNAUTHORIZED);
+  }
+}
