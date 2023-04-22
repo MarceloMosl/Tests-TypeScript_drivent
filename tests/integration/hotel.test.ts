@@ -48,7 +48,7 @@ describe('GET /hotels', () => {
   });
 });
 
-describe('when token is valid', () => {
+describe('GET /hotels when token is valid', () => {
   it('Should respond 404 when user dont Have a ticket or enrollment', async () => {
     const token = await generateValidToken();
 

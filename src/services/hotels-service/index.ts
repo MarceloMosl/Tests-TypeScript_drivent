@@ -1,6 +1,6 @@
 import hotelRepo from '@/repositories/hotel-repository';
 
-export async function getAllHotels(userId: number) {
+export async function getAllHotels() {
   const promise = await hotelRepo.getAllHotels();
   if (promise.length === 0) return false;
 
