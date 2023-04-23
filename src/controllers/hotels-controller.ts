@@ -13,7 +13,8 @@ export async function getAllHotels(req: AuthenticatedRequest, res: Response) {
 }
 
 export async function getHotelRooms(req: AuthenticatedRequest, res: Response) {
-  const hotelId = req.params;
+  const { hotelId } = req.params;
+  console.log(hotelId);
   try {
     const promise = await hotelService.getHotelRooms(Number(hotelId));
     return res.status(httpStatus.OK).send(promise);
