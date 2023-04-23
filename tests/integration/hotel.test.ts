@@ -3,7 +3,7 @@ import httpStatus from 'http-status';
 import * as jwt from 'jsonwebtoken';
 import supertest from 'supertest';
 import { TicketStatus } from '@prisma/client';
-import { createEnrollmentWithAddress, createPayment, createTicket, createTicketType, createUser } from '../factories';
+import { createEnrollmentWithAddress, createPayment, createTicket, createUser } from '../factories';
 import { cleanDb, generateValidToken } from '../helpers';
 import {
   createHotelTicketType,

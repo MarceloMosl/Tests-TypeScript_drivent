@@ -2,7 +2,6 @@ import { NextFunction, Response } from 'express';
 import httpStatus from 'http-status';
 import { AuthenticatedRequest } from './authentication-middleware';
 import ticketsRepo from '@/repositories/tickets-repository';
-import paymentRepo from '@/repositories/payment-repository';
 import hotelRepo from '@/repositories/hotel-repository';
 
 export async function validateHotel(req: AuthenticatedRequest, res: Response, next: NextFunction) {
