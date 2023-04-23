@@ -12,6 +12,7 @@ import {
   cretaeHotel,
 } from '../factories/hotels-factory';
 import app, { init } from '@/app';
+import paymentRepo from '@/repositories/payment-repository';
 
 const server = supertest(app);
 
@@ -60,9 +61,8 @@ describe('GET /hotels when token is valid', () => {
     const user = await createUser();
     const token = await generateValidToken(user);
     const enrollment = await createEnrollmentWithAddress(user);
-    const ticketType = await createTicketType();
+    const ticketType = await createHotelTicketType();
     await createTicket(enrollment.id, ticketType.id, TicketStatus.RESERVED);
-    await cretaeHotel();
 
     const response = await server.get('/hotels').set('Authorization', `Bearer ${token}`);
 
@@ -76,6 +76,7 @@ describe('GET /hotels when token is valid', () => {
     const ticketType = await createRemoteTicketType();
     const ticket = await createTicket(enrollment.id, ticketType.id, TicketStatus.RESERVED);
     await createPayment(ticket.id, ticketType.price);
+    await paymentRepo.updateTicket(ticket.id);
     await cretaeHotel();
 
     const response = await server.get('/hotels').set('Authorization', `Bearer ${token}`);
@@ -102,6 +103,7 @@ describe('GET /hotels when token is valid', () => {
     const ticketType = await createHotelTicketType();
     const ticket = await createTicket(enrollment.id, ticketType.id, TicketStatus.RESERVED);
     await createPayment(ticket.id, ticketType.price);
+    await paymentRepo.updateTicket(ticket.id);
 
     const response = await server.get('/hotels').set('Authorization', `Bearer ${token}`);
     expect(response.status).toBe(httpStatus.NOT_FOUND);
@@ -114,6 +116,7 @@ describe('GET /hotels when token is valid', () => {
     const ticketType = await createHotelTicketType();
     const ticket = await createTicket(enrollment.id, ticketType.id, TicketStatus.RESERVED);
     await createPayment(ticket.id, ticketType.price);
+    await paymentRepo.updateTicket(ticket.id);
     await cretaeHotel();
 
     const response = await server.get('/hotels').set('Authorization', `Bearer ${token}`);

@@ -37,6 +37,6 @@ export async function createPayment(obj: paymentObj, ticketValue: number) {
   return promise;
 }
 
-const paymentRepo = { getPaymentByTicketId, findTicketById, createPayment };
+const paymentRepo = { getPaymentByTicketId, findTicketById, createPayment, updateTicket };
 
 export default paymentRepo;
